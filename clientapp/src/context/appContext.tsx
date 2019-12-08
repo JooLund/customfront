@@ -11,6 +11,6 @@ const appContext = React.createContext<AppContext>({
     news : [],
     filesReady : false,
     error : ""
-})
+});
 
 export default appContext;

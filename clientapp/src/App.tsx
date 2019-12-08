@@ -1,18 +1,62 @@
 import React, { useState, useContext, useEffect } from 'react';
+
+//Contexts
 import appContext, { AppContext } from './context/appContext';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import weatherContext, { WeatherContext } from './context/weatherContext';
+
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 
-import News from './components/News';
 import Nav from './components/Nav';
+import Weather from './components/Weather';
+import News from './components/News';
+
 
 
 const App: React.FC = () => {
   
+  const [weatherData, setWeatherData] = useState<WeatherContext>({
+    ...useContext(weatherContext)
+  })
+
   const [appData, setAppData] = useState<AppContext>({
     ...useContext(appContext)
   })
+
+  const requestWeather = async () => {
+
+    try {
+      let res = await fetch('http://localhost:3005/api/weather');
+
+      try{
+
+        let weather = await res.json();
+
+        setWeatherData({
+          ...weatherData,
+          weather : weather,
+          weatherLoaded : true
+        })
+
+      }catch(err){
+        setWeatherData({
+          ...weatherData,
+          weatherLoaded : false,
+          error : `API-error: ${err}`
+        })
+      }
+
+    }catch(err){
+      setWeatherData({
+        ...weatherData,
+        weatherLoaded : false,
+        error : `Error: ${err}`
+      })
+    }
+
+  }
+
 
   const requestNews = async () => {
 
@@ -30,13 +74,11 @@ const App: React.FC = () => {
           filesReady : true
         })
 
-        console.log(news);
-
       } catch (error) {
         setAppData({
           ...appData,
           filesReady : false,
-          error : `API-error: {error}`
+          error : `API-error: ${error}`
         })
         console.log(error);
       }
@@ -46,7 +88,7 @@ const App: React.FC = () => {
       setAppData({
         ...appData,
         filesReady : false,
-        error : `Error: {error}`
+        error : `Error: ${error}`
       })
       console.log(error);
     }
@@ -57,6 +99,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     
+    requestWeather()
     requestNews()
 
   }, [])
@@ -70,6 +113,9 @@ const App: React.FC = () => {
 
         <Route exact path ="/">
           <Nav></Nav>
+          <weatherContext.Provider value={weatherData}>
+            <Weather></Weather>
+          </weatherContext.Provider>
           <News></News>
         </Route>
 

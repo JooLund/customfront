@@ -38,7 +38,7 @@ const News: React.FC = () => {
                             <Card className="card text-white bg-dark" key={idx}>
                                 <Card.Body>
                                     <Card.Title>
-                                        <p><small>{news.title} <a href={news.link} target="_blank" className='card-link'>Open</a></small></p>
+                                        <p><small>{news.title} <a href={news.link} target="_blank" rel="noopener noreferrer" className='card-link'>Open</a></small></p>
                                     </Card.Title>
 
                                     <Card.Subtitle className="card-subtitle mb-2 text-muted">
