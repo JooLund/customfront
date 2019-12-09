@@ -12,3 +12,15 @@ export interface WeatherType{
     'location' : string
 
 }
+
+export interface ForecastType{
+
+    'icon' : string,
+    'desc' : string,
+    'temp' : string,
+    'pressure' : string,
+    'humidity' : string,
+    'wind' : string,
+    'date' : string
+
+}

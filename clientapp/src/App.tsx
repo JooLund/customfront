@@ -15,14 +15,58 @@ import News from './components/News';
 
 
 const App: React.FC = () => {
-  
+
+
   const [weatherData, setWeatherData] = useState<WeatherContext>({
     ...useContext(weatherContext)
   })
 
+
+
   const [appData, setAppData] = useState<AppContext>({
     ...useContext(appContext)
   })
+
+  
+  const requestForecast = async () => {
+
+    try {
+      let res = await fetch('http://localhost:3005/api/forecast');
+
+      try{
+
+        let forecast = await res.json();
+
+        setWeatherData((prevData: WeatherContext) => ({
+          ...prevData,
+          forecast : forecast,
+          forecastLoaded : true
+        }));
+
+        /*
+        setWeatherData({
+          ...weatherData,
+          forecast : forecast,
+          forecastLoaded : true
+        })*/
+        
+      }catch(err){
+        setWeatherData({
+          ...weatherData,
+          forecastLoaded : false,
+          error : `API-error: ${err}`
+        })
+      }
+
+    }catch(err){
+      setWeatherData({
+        ...weatherData,
+        forecastLoaded : false,
+        error : `Error: ${err}`
+      })
+    }
+
+  }
 
   const requestWeather = async () => {
 
@@ -33,11 +77,11 @@ const App: React.FC = () => {
 
         let weather = await res.json();
 
-        setWeatherData({
-          ...weatherData,
+        setWeatherData((prevData: WeatherContext) => ({
+          ...prevData,
           weather : weather,
           weatherLoaded : true
-        })
+        }));
 
       }catch(err){
         setWeatherData({
@@ -101,6 +145,7 @@ const App: React.FC = () => {
     
     requestWeather()
     requestNews()
+    requestForecast()
 
   }, [])
 

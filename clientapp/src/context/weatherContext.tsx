@@ -1,9 +1,11 @@
 import React from 'react';
-import { WeatherType} from '../types/Weather';
+import { WeatherType, ForecastType} from '../types/Weather';
 
 export interface WeatherContext{
     weather : WeatherType[],
+    forecast : ForecastType[],
     weatherLoaded : boolean,
+    forecastLoaded : boolean,
     error? : string
 
 }
@@ -11,7 +13,9 @@ export interface WeatherContext{
 
 const weatherContext = React.createContext<WeatherContext>({
     weather : [],
+    forecast : [],
     weatherLoaded : false,
+    forecastLoaded : false,
     error : ""
 });
 
