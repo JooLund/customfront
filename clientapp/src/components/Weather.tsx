@@ -18,32 +18,26 @@ const Weather : React.FC = () => {
                 </Spinner>
             </div>                                       
         :
-        <Card className='card text-white bg-dark mb-4 w-100'>
-            <Card.Body>
-                <Card className='card text-white bg-dark mb-2 p-1 border-0'>
-                    <Card.Title className='text-center'>
-                        <h2>Weather in {weatherData.weather[0].location}</h2>
-                    </Card.Title>
-                    <Card.Body className='p-1'>
-                        <ListGroup>
-                            <ListGroupItem className='text-white bg-secondary text-center'>
-                                Temperature: {weatherData.weather[0].temp}&#8451; |
-                                <Image src={weatherData.weather[0].icon}></Image> |
-                                Humidity: {weatherData.weather[0].humidity} |
-                                Wind speed: {weatherData.weather[0].wind} |
-                                Sunrise: {weatherData.weather[0].sunrise} |
-                                Sunset: {weatherData.weather[0].sunset} |
-                            </ListGroupItem>
-                        </ListGroup>
-                    </Card.Body>
-                </Card>
-            </Card.Body>
-
-            <small id="updated" className="form-text text-muted p-0 m-0">
-                    Latest update: {weatherData.weather[0].updated}
-            </small>
-            
-        </Card>
+            <Card className='card text-white bg-dark mb-2 p-1 border-0'>
+                <Card.Title className='text-center'>
+                    <h2>Weather in {weatherData.weather[0].location}</h2>
+                    <small className="form-text text-muted p-0 m-0">
+                        Latest update: {weatherData.weather[0].updated}
+                    </small>
+                </Card.Title>
+                <Card.Body className='p-1'>
+                    <ListGroup>
+                        <ListGroupItem className='text-white bg-secondary text-center'>
+                            Temperature: {weatherData.weather[0].temp}&#8451; |
+                            <Image src={weatherData.weather[0].icon}></Image> |
+                            Humidity: {weatherData.weather[0].humidity} |
+                            Wind speed: {weatherData.weather[0].wind} |
+                            Sunrise: {weatherData.weather[0].sunrise} |
+                            Sunset: {weatherData.weather[0].sunset} |
+                        </ListGroupItem>
+                    </ListGroup>
+                </Card.Body>
+            </Card>
 
         }
 

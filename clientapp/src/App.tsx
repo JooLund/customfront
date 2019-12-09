@@ -8,9 +8,12 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 
+import Main from './components/Main';
 import Nav from './components/Nav';
 import Weather from './components/Weather';
+import Forecast from './components/Forecast';
 import News from './components/News';
+import { Card } from 'react-bootstrap';
 
 
 
@@ -157,11 +160,18 @@ const App: React.FC = () => {
       <Container className="mt-3">
 
         <Route exact path ="/">
-          <Nav></Nav>
-          <weatherContext.Provider value={weatherData}>
-            <Weather></Weather>
-          </weatherContext.Provider>
-          <News></News>
+          <Main>
+            <Nav></Nav>
+            <weatherContext.Provider value={weatherData}>
+              <Card className='card text-white bg-dark mb-4 w-100'>
+                <Card.Body>
+                  <Weather></Weather>
+                  <Forecast></Forecast>
+                </Card.Body>
+              </Card>
+            </weatherContext.Provider>
+            <News></News>
+          </Main>
         </Route>
 
       </Container>
