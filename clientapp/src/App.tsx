@@ -6,25 +6,25 @@ import weatherContext, { WeatherContext } from './context/weatherContext';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Container from 'react-bootstrap/Container';
+import { Card, Container } from 'react-bootstrap';
+
 
 import Main from './components/Main';
 import Nav from './components/Nav';
 import Weather from './components/Weather';
 import Forecast from './components/Forecast';
 import News from './components/News';
-import { Card } from 'react-bootstrap';
+
+import Settings from './components/Settings';
+
 
 
 
 const App: React.FC = () => {
 
-
   const [weatherData, setWeatherData] = useState<WeatherContext>({
     ...useContext(weatherContext)
   })
-
-
 
   const [appData, setAppData] = useState<AppContext>({
     ...useContext(appContext)
@@ -104,7 +104,6 @@ const App: React.FC = () => {
 
   }
 
-
   const requestNews = async () => {
 
     try {
@@ -117,7 +116,7 @@ const App: React.FC = () => {
 
         setAppData({
           ...appData,
-          news : news[0],
+          news : news,
           filesReady : true
         })
 
@@ -141,7 +140,6 @@ const App: React.FC = () => {
     }
 
   }
-
 
 
   useEffect(() => {
@@ -174,6 +172,10 @@ const App: React.FC = () => {
           </Main>
         </Route>
 
+        <Route path = '/settings'>
+          <Settings></Settings>
+        </Route>
+        
       </Container>
 
 

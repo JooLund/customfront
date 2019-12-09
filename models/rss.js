@@ -53,7 +53,7 @@ let getNews = (url, limit) => {
 
                                 let getImage = () => {
                                     if(rss.enclosure == undefined){
-                                        return "/img/eikuvaa.png"
+                                        return "no_image"
                                     }else{
                                         return rss.enclosure[0].$.url
                                     }

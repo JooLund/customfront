@@ -33,7 +33,7 @@ const Weather : React.FC = () => {
                             Humidity: {weatherData.weather[0].humidity} |
                             Wind speed: {weatherData.weather[0].wind} |
                             Sunrise: {weatherData.weather[0].sunrise} |
-                            Sunset: {weatherData.weather[0].sunset} |
+                            Sunset: {weatherData.weather[0].sunset}
                         </ListGroupItem>
                     </ListGroup>
                 </Card.Body>

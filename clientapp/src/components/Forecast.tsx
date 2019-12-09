@@ -23,7 +23,7 @@ const Forecast : React.FC = () => {
             <CardDeck>
                 {weatherData.forecast.map((weather: any, idx: number) =>{
                     return(
-                        <Card className = 'text-white bg-dark m-0 border-0"'>
+                        <Card className = 'text-white bg-dark m-0 border-0' key = {idx}>
                             <Card.Body className='p-1'>
                                 <Card.Title className='text-center'>
                                     {weather.date}
@@ -36,7 +36,7 @@ const Forecast : React.FC = () => {
                                         <small><Image src={weather.icon}></Image> {weather.desc}</small>
                                     </ListGroupItem>
                                     <ListGroupItem className='text-white bg-dark'>
-                                        <small>Humidity: {weather.humidity}</small>
+                                        <small>Humidity: {weather.humidity}%</small>
                                     </ListGroupItem>
                                     <ListGroupItem className='text-white bg-dark'>
                                         <small>Wind speed: {weather.wind} m/s</small>

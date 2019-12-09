@@ -12,15 +12,21 @@ const weather = require('../models/owmApi');
 router.get('/rss', (req, res) => {
 
     //For testing purposes only
-    let newslimit = 10;
-    let url = ['https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_UUTISET'];
+    let newslimit = 20;
+    let urls = ['https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_UUTISET', 'https://www.iltalehti.fi/rss.xml'];
+
+    let url = [].concat.apply([], urls);
 
     let rssReader = () => {
 
         rss.exportNews(url, newslimit, (err, news) => {
-
+        
             try{
-                res.json(news)
+
+                let merge = [].concat.apply([], news);
+
+                res.json(merge)
+                
             }catch(err){
                 res.status(500);
             }

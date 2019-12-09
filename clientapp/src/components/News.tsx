@@ -1,6 +1,8 @@
 import React from 'react'
 import appContext from '../context/appContext';
 
+import no_image from '../static/no_image.png';
+
 import { Newstype } from '../types/News';
 
 import { Spinner, Alert, Card, CardColumns } from 'react-bootstrap';
@@ -9,6 +11,10 @@ import { Spinner, Alert, Card, CardColumns } from 'react-bootstrap';
 const News: React.FC = () => {
 
     const appData = React.useContext(appContext);
+
+    const showDefault = (e: any) : void => {
+        e.target.src = no_image;
+    }
 
     return (
 
@@ -42,10 +48,10 @@ const News: React.FC = () => {
                                     </Card.Title>
 
                                     <Card.Subtitle className="card-subtitle mb-2 text-muted">
-                                        <small>Published: {news.date} by {news.source}</small>
+                                        <small>Published: {news.date} Source: {news.source}</small>
                                     </Card.Subtitle>
 
-                                    <Card.Img src={news.img} className='mx-auto d-block w-75' alt='No picture'></Card.Img>
+                                    <Card.Img onError={(e: any) => {showDefault(e)}} src={news.img} className='mx-auto d-block w-75' alt='No picture'></Card.Img>
                                 </Card.Body>
                             </Card>
                         )
