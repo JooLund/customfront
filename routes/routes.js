@@ -90,6 +90,17 @@ router.get('/forecast', (req, res) => {
 
 });
 
+//@route    POST api/settings
+//@desc     Set the user preferences
+//@access   Public
+router.post('/settings', (req, res) => {
+
+    let settings = req.body;
+    
+    console.log(settings);
+    res.status(200).send(settings)
+
+})
 
 
 module.exports = router;

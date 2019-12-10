@@ -3,24 +3,24 @@ import React, { useState, useContext, useEffect } from 'react';
 //Contexts
 import appContext, { AppContext } from './context/appContext';
 import weatherContext, { WeatherContext } from './context/weatherContext';
+import settingsContext, { SettingsContext } from './context/settingsContext';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import { Card, Container } from 'react-bootstrap';
-
+import { Container } from 'react-bootstrap';
 
 import Main from './components/Main';
 import Nav from './components/Nav';
-import Weather from './components/Weather';
-import Forecast from './components/Forecast';
+import WeatherCard from './components/WeatherCard';
 import News from './components/News';
-
 import Settings from './components/Settings';
 
 
-
-
 const App: React.FC = () => {
+
+  const [settingsData, setSettingsData] = useState<SettingsContext>({
+    ...useContext(settingsContext)
+  })
 
   const [weatherData, setWeatherData] = useState<WeatherContext>({
     ...useContext(weatherContext)
@@ -31,7 +31,7 @@ const App: React.FC = () => {
   })
 
   
-  const requestForecast = async () => {
+  const getForecast = async () => {
 
     try {
       let res = await fetch('http://localhost:3005/api/forecast');
@@ -71,7 +71,7 @@ const App: React.FC = () => {
 
   }
 
-  const requestWeather = async () => {
+  const getWeather = async () => {
 
     try {
       let res = await fetch('http://localhost:3005/api/weather');
@@ -104,7 +104,7 @@ const App: React.FC = () => {
 
   }
 
-  const requestNews = async () => {
+  const getNews = async () => {
 
     try {
       
@@ -144,15 +144,17 @@ const App: React.FC = () => {
 
   useEffect(() => {
     
-    requestWeather()
-    requestNews()
-    requestForecast()
+    getWeather()
+    getNews()
+    getForecast()
 
   }, [])
 
   
   return (
     <appContext.Provider value={appData}>
+    <settingsContext.Provider value={settingsData}>
+
     <Router>
 
       <Container className="mt-3">
@@ -161,25 +163,21 @@ const App: React.FC = () => {
           <Main>
             <Nav></Nav>
             <weatherContext.Provider value={weatherData}>
-              <Card className='card text-white bg-dark mb-4 w-100'>
-                <Card.Body>
-                  <Weather></Weather>
-                  <Forecast></Forecast>
-                </Card.Body>
-              </Card>
+              <WeatherCard></WeatherCard>
             </weatherContext.Provider>
             <News></News>
           </Main>
         </Route>
 
         <Route path = '/settings'>
-          <Settings></Settings>
+            <Settings></Settings>
         </Route>
         
       </Container>
 
-
     </Router>
+
+    </settingsContext.Provider>
     </appContext.Provider>
   );
 }

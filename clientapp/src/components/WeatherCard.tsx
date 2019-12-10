@@ -1,18 +1,34 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import Weather from './Weather';
+import Forecast from './Forecast';
 
-//Prototype, currently the functionality is in App.tsx
+import settingsContext from '../context/settingsContext';
 
 const WeatherCard : React.FC = () => {
-    return (
-        <React.Fragment>
-        <Card className='card text-white bg-dark mb-4 w-100'>
-            <Card.Body>
-                weather block?
-                forecast block?
-            </Card.Body>
-        </Card>
-        </React.Fragment>
+
+  //Testing
+  const settingsData = React.useContext(settingsContext);
+
+  return (
+      <React.Fragment>
+            <Card className='card text-white bg-dark mb-4 w-100'>
+              <Card.Body>
+                {(settingsData.settings.weather === false)
+                ?
+                  <></>
+                :
+                  <Weather></Weather>
+                } 
+                {(settingsData.settings.forecast === false)
+                ?
+                  <></>
+                :              
+                  <Forecast></Forecast>
+                }
+              </Card.Body>
+            </Card>
+      </React.Fragment>
 
     )
 }

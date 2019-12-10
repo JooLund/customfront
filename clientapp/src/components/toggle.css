@@ -1,0 +1,17 @@
+
+.my-custom-switch{
+    transform: scale(1.2);
+    padding-left: 20%;
+  }
+
+.custom-control-label::before {
+  border-color: #8d8d8d;
+  background-color: #3a3a3a;
+}
+  
+.custom-control-input:checked~.custom-control-label::before {
+  color: #fff;
+  border-color: #8d8d8d;
+  background-color: #444444;
+
+}
