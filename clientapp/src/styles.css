@@ -9,3 +9,11 @@ h1, h2, h3, h4, h5, p {
 #updated {
     position: absolute;
 }
+
+a{
+    color: #c9c9c9
+}
+
+a:hover{
+    color: #5bc0de
+}

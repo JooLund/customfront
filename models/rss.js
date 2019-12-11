@@ -30,7 +30,7 @@ let getNews = (url, limit) => {
                                 let pubDate = new Date(rss.pubDate[0]);
                                 let timestamp = pubDate.getTime()/1000;
 
-
+                                
                                 let formatDate = () => {
                                     
                                     if(rss.pubDate[0] != undefined){
@@ -41,15 +41,32 @@ let getNews = (url, limit) => {
                                             hh = d.getHours();
                                             min = ('0' + d.getMinutes()).slice(-2);  
 
-                                        date = `${dd}.${mm} at ${hh}.${min}.`;
+                                        let date = `${dd}.${mm}`;
                                         return date; 
 
                                     }else{
-                                        date = `No date.`
+                                        let date = `undefined`
                                         return date;
                                     }
                                 }
 
+
+                                let formatTime = () => {
+                                    
+                                    if(rss.pubDate[0] != undefined){
+                                    
+                                        let d = new Date(timestamp*1000);       
+                                            hh = d.getHours();
+                                            min = ('0' + d.getMinutes()).slice(-2);  
+
+                                        let time = `${hh}.${min}`;
+                                        return time; 
+
+                                    }else{
+                                        let time = `undefined`
+                                        return time;
+                                    }
+                                }
 
                                 let getImage = () => {
                                     if(rss.enclosure == undefined){
@@ -81,8 +98,9 @@ let getNews = (url, limit) => {
 
                                 }
 
-                            let uutinen = {
+                            let newsSingle = {
                                             "date" : formatDate(),
+                                            "time" : formatTime(),
                                             "title" : rss.title[0],
                                             "desc" : rss.description[0],
                                             "link" : rss.link[0],
@@ -90,7 +108,7 @@ let getNews = (url, limit) => {
                                             "source" : findSource()
                                         };
 
-                            newsCombined.push(uutinen);
+                            newsCombined.push(newsSingle);
 
                             }
                         
@@ -156,10 +174,9 @@ module.exports = {
                 Promise.all(combineNews).then((combinedNews) =>{
 
                     let merge = [].concat.apply([], combinedNews);
-                    
-                    //Not a great solution but works for now. Should create date and time objects rather than slice here. TODO
-                    merge.sort((b, a) => a.date.slice(9, 14) - b.date.slice(9, 14));
-                    console.log(merge[0].date.slice(9, 14));
+
+                    merge.sort((b, a) => a.time - b.time);
+                    console.log(merge[0]);
                     callback( null, merge);              
 
                 }).catch((error) => {
