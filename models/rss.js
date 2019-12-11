@@ -41,7 +41,7 @@ let getNews = (url, limit) => {
                                             hh = d.getHours();
                                             min = ('0' + d.getMinutes()).slice(-2);  
 
-                                        date = `${dd}.${mm} klo ${hh}.${min}.`;
+                                        date = `${dd}.${mm} at ${hh}.${min}.`;
                                         return date; 
 
                                     }else{
@@ -106,7 +106,6 @@ let getNews = (url, limit) => {
 
 
 
-
 module.exports = {
 
     "exportNews" : (data, callback) => {
@@ -156,7 +155,12 @@ module.exports = {
 
                 Promise.all(combineNews).then((combinedNews) =>{
 
-                    callback( null, combinedNews);              
+                    let merge = [].concat.apply([], combinedNews);
+                    
+                    //Not a great solution but works for now. Should create date and time objects rather than slice here. TODO
+                    merge.sort((b, a) => a.date.slice(9, 14) - b.date.slice(9, 14));
+                    console.log(merge[0].date.slice(9, 14));
+                    callback( null, merge);              
 
                 }).catch((error) => {
 
@@ -165,43 +169,5 @@ module.exports = {
                 });
         }
     }
-
-    /*
-    "exportNews" : (data, newsLimit, callback) => {
-
-        let urls = data;
-
-        let limit = () => { 
-
-            if(urls.length == 3){
-                return Math.ceil(newsLimit/3);
-            }
-            else if( urls.length == 2){
-                return Math.ceil(newsLimit/2);
-            }else{
-                return newsLimit;
-            }          
-        }
-
-        let combineNews = [];
-
-        urls.forEach((url) =>{
-
-            combineNews.push(getNews(url, limit()));
-            
-        });
-
-            Promise.all(combineNews).then((combinedNews) =>{
-
-                callback( null, combinedNews);              
-
-            }).catch((error) => {
-
-                callback(error, null);
-
-            });
-    
-    }
-    */
 
 }

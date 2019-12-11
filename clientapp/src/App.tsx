@@ -34,6 +34,9 @@ const App: React.FC = () => {
   })
 
   
+//TODO: Create a separate config for the fetch URIs, current version wont run when deployed
+//TODO: Export get cookies somehow and run it with /settings post request IF changes happen https://stackoverflow.com/questions/46867494/%C3%97-react-fetch-wont-hit-index-route-in-express-router/46868034
+
   const getForecast = async () => {
 
     try {

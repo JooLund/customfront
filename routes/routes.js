@@ -11,7 +11,6 @@ const checkCookies = (req, res) => {
     if(req.cookies.settings){
 
         settings = JSON.parse(req.cookies.settings);
-        console.log(settings);
         return settings;
 
     }else{
@@ -38,7 +37,7 @@ const checkCookies = (req, res) => {
 // @access  Public
 router.get('/rss', (req, res) => {
 
-    console.log('Fetched RSS');
+    //console.log('Fetched RSS');
 
     let settings = checkCookies(req, res);
 
@@ -50,8 +49,7 @@ router.get('/rss', (req, res) => {
             if(news === false){
                 res.status(200).json([]);
             }else{
-                let merge = [].concat.apply([], news);
-                res.json(merge);
+                res.json(news);
             }
 
         }catch(error){
@@ -121,13 +119,15 @@ router.get('/forecast', (req, res) => {
 //@access   Public
 router.post('/settings', (req, res) => {
 
+    //Try-catch here
+
     console.log('Saved settings as cookies');
 
     let settings = req.body;
 
     res.cookie('settings', JSON.stringify(settings), {maxAge: 5000000000});
     
-    res.status(201).send('Settings saved!');
+    res.status(200).send('Settings saved!');
 
 });
 

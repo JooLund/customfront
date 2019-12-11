@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Row, Card, Button, Col, CardDeck, ListGroup, ListGroupItem, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+
 import settingsContext from '../context/settingsContext';
 
 import './toggle.css';
@@ -24,13 +25,20 @@ const Settings : React.FC = () => {
                 credentials : 'include',
                 headers: { 'Content-Type': 'application/json' },            
                 body : JSON.stringify(settings)
+            })
+            .then((res) => {
+                if( res.status === 200){
+                    settingsData.settings = settings;
+                    window.location.href = '/';
+                }else{
+                    console.log(res.status);
+                }
             });
 
         } catch (error) {
             console.log(error);            
         }
-
-        settingsData.settings = settings;
+        
     }
 
     const createOptions = () => {
