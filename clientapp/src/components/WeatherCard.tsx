@@ -12,22 +12,29 @@ const WeatherCard : React.FC = () => {
 
   return (
       <React.Fragment>
-            <Card className='card text-white bg-dark mb-4 w-100'>
-              <Card.Body>
-                {(settingsData.settings.weather === false)
-                ?
-                  <></>
-                :
-                  <Weather></Weather>
-                } 
-                {(settingsData.settings.forecast === false)
-                ?
-                  <></>
-                :              
-                  <Forecast></Forecast>
-                }
-              </Card.Body>
-            </Card>
+        {(settingsData.settings.weather === false && settingsData.settings.forecast === false)
+        ?
+          <></>
+        :
+            
+          <Card className='card text-white bg-dark mb-4 w-100'>
+            <Card.Body>
+              {(settingsData.settings.weather === false)
+              ?
+                <></>
+              :
+                <Weather></Weather>
+              } 
+              {(settingsData.settings.forecast === false)
+              ?
+                <></>
+              :              
+                <Forecast></Forecast>
+              }               
+            </Card.Body>
+          </Card>
+          
+        }
       </React.Fragment>
 
     )

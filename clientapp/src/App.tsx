@@ -16,6 +16,9 @@ import News from './components/News';
 import Settings from './components/Settings';
 
 
+import Cookies from 'js-cookie';
+
+
 const App: React.FC = () => {
 
   const [settingsData, setSettingsData] = useState<SettingsContext>({
@@ -143,10 +146,57 @@ const App: React.FC = () => {
 
 
   useEffect(() => {
-    
-    getWeather()
-    getNews()
-    getForecast()
+
+    //Get cookies
+
+    const getCookies = async () => {
+
+      try{
+        let testikeksi : any = Cookies.get('settings');
+        let splice : any = testikeksi.slice(2)
+        let cSettings = JSON.parse(splice);
+  
+
+        setSettingsData((prevData: SettingsContext) => ({
+          ...prevData,
+          settings : cSettings
+        }));
+
+        console.log(cSettings);
+        console.log(settingsData);
+        /*
+
+        setSettingsData({
+          ...settingsData,
+          settings : cSettings
+        })
+
+        */
+
+      }catch(error){
+        setSettingsData({
+          ...settingsData
+        })
+      }
+
+
+      // Doesnt work atm
+      if(settingsData.settings.forecast === true){
+        getForecast()
+      }
+
+      if(settingsData.settings.weather === true){
+        getWeather()
+      }
+
+      
+      if(settingsData.settings.newsYle === true){
+        getNews()
+      }
+
+    }
+
+    getCookies();
 
   }, [])
 

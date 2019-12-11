@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const cookieParser = require('cookie-parser');
+router.use(cookieParser());
+
 //Models
 const rss = require('../models/rss');
 const weather = require('../models/owmApi');
@@ -10,6 +13,8 @@ const weather = require('../models/owmApi');
 // @access  Public
 
 router.get('/rss', (req, res) => {
+
+    console.log('Fetched RSS');
 
     //For testing purposes only
     let newslimit = 20;
@@ -45,6 +50,8 @@ router.get('/rss', (req, res) => {
 
 router.get('/weather', (req, res) => {
 
+    console.log('Fetched weather');
+
     let getWeather = async () => {
 
         try{
@@ -71,6 +78,8 @@ router.get('/weather', (req, res) => {
 
 router.get('/forecast', (req, res) => {
 
+    console.log('Fetched forecast');
+
     let getForecast = async () => {
 
         try{
@@ -95,10 +104,13 @@ router.get('/forecast', (req, res) => {
 //@access   Public
 router.post('/settings', (req, res) => {
 
+    console.log('Saved settings as cookies');
+
     let settings = req.body;
+
+    res.cookie('settings', settings, {maxAge: 5000000000});
     
-    console.log(settings);
-    res.status(200).send(settings)
+    res.status(201).send('Alls fine');
 
 })
 

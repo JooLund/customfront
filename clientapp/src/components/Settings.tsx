@@ -21,6 +21,7 @@ const Settings : React.FC = () => {
         try {
             fetch('http://localhost:3005/api/settings', {
                 method : 'POST',
+                credentials : 'include',
                 headers: { 'Content-Type': 'application/json' },            
                 body : JSON.stringify(settings)
             });
