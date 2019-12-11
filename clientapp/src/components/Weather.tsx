@@ -30,8 +30,8 @@ const Weather : React.FC = () => {
                         <ListGroupItem className='text-white bg-secondary text-center'>
                             Temperature: {weatherData.weather[0].temp}&#8451; |
                             <Image src={weatherData.weather[0].icon}></Image> |
-                            Humidity: {weatherData.weather[0].humidity} |
-                            Wind speed: {weatherData.weather[0].wind} |
+                            Humidity: {weatherData.weather[0].humidity}% |
+                            Wind speed: {weatherData.weather[0].wind} m/s |
                             Sunrise: {weatherData.weather[0].sunrise} |
                             Sunset: {weatherData.weather[0].sunset}
                         </ListGroupItem>

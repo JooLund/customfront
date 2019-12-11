@@ -109,7 +109,64 @@ let getNews = (url, limit) => {
 
 module.exports = {
 
+    "exportNews" : (data, callback) => {
 
+        let settings = data;
+        let urls = [];
+        let loadNews = false;
+
+        if(settings.newsYle === true){
+            urls.push('https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_UUTISET');
+            loadNews = true;
+        }
+        if(settings.newsHs === true){
+            urls.push('https://www.hs.fi/rss/tuoreimmat.xml');
+            loadNews = true;
+        }
+        if(settings.newsIl === true){
+            urls.push('https://www.iltalehti.fi/rss.xml');
+            loadNews = true;
+        }
+
+        if(loadNews === false){
+            
+            return callback(null, loadNews);
+
+        }else{
+
+            let limit = () => { 
+
+                if(urls.length == 3){
+                    return Math.ceil(settings.limit/3);
+                }
+                else if( urls.length == 2){
+                    return Math.ceil(settings.limit/2);
+                }else{
+                    return settings.limit;
+                }          
+            }
+
+            let combineNews = [];
+
+            urls.forEach((url) =>{
+
+                combineNews.push(getNews(url, limit()));
+                
+            });
+
+                Promise.all(combineNews).then((combinedNews) =>{
+
+                    callback( null, combinedNews);              
+
+                }).catch((error) => {
+
+                    callback(error, null);
+
+                });
+        }
+    }
+
+    /*
     "exportNews" : (data, newsLimit, callback) => {
 
         let urls = data;
@@ -145,5 +202,6 @@ module.exports = {
             });
     
     }
+    */
 
 }

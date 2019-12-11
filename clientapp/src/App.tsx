@@ -37,7 +37,9 @@ const App: React.FC = () => {
   const getForecast = async () => {
 
     try {
-      let res = await fetch('http://localhost:3005/api/forecast');
+      let res = await fetch('http://localhost:3005/api/forecast', {
+        credentials: 'include'
+      });
 
       try{
 
@@ -77,7 +79,10 @@ const App: React.FC = () => {
   const getWeather = async () => {
 
     try {
-      let res = await fetch('http://localhost:3005/api/weather');
+      let res = await fetch('http://localhost:3005/api/weather', {
+        credentials: 'include'
+      });
+
 
       try{
 
@@ -111,7 +116,10 @@ const App: React.FC = () => {
 
     try {
       
-      let res = await fetch('http://localhost:3005/api/rss');
+      let res = await fetch('http://localhost:3005/api/rss', {
+        credentials: 'include'
+      });
+
 
       try {
 
@@ -144,57 +152,54 @@ const App: React.FC = () => {
 
   }
 
+  const getCookies = async () => {
+
+    try{
+      let cookies : any = Cookies.get('settings');
+      console.log(cookies);
+      let cSettings = JSON.parse(cookies);
+
+      setSettingsData((prevData: SettingsContext) => ({
+        ...prevData,
+        settings : cSettings
+      }));
+
+      /*
+      console.log(cSettings);
+      console.log(settingsData);
+
+      setSettingsData({
+        ...settingsData,
+        settings : cSettings
+      })
+
+      */
+
+    }catch(error){
+      setSettingsData({
+        ...settingsData
+      });
+      console.log(error);
+    }
+  
+    // Doesnt work atm
+    if(settingsData.settings.forecast === true){
+      getForecast()
+    }
+
+    if(settingsData.settings.weather === true){
+      getWeather()
+    }
+
+    
+    if(settingsData.settings.newsYle === true){
+      getNews()
+    }
+
+  }
+
 
   useEffect(() => {
-
-    //Get cookies
-
-    const getCookies = async () => {
-
-      try{
-        let testikeksi : any = Cookies.get('settings');
-        let splice : any = testikeksi.slice(2)
-        let cSettings = JSON.parse(splice);
-  
-
-        setSettingsData((prevData: SettingsContext) => ({
-          ...prevData,
-          settings : cSettings
-        }));
-
-        console.log(cSettings);
-        console.log(settingsData);
-        /*
-
-        setSettingsData({
-          ...settingsData,
-          settings : cSettings
-        })
-
-        */
-
-      }catch(error){
-        setSettingsData({
-          ...settingsData
-        })
-      }
-
-
-      // Doesnt work atm
-      if(settingsData.settings.forecast === true){
-        getForecast()
-      }
-
-      if(settingsData.settings.weather === true){
-        getWeather()
-      }
-
-      
-      if(settingsData.settings.newsYle === true){
-        getNews()
-      }
-
-    }
 
     getCookies();
 
