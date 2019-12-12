@@ -1,7 +1,7 @@
 const request = require("request");
 const xml2js = require("xml2js");
 
-let getNews = (url, limit) => {
+let getNews = (url) => {
 
     return new Promise((resolve, reject) => {
 
@@ -23,7 +23,7 @@ let getNews = (url, limit) => {
 
                         let i;                       
 
-                            for (i = 0; i < limit; i++) { 
+                            for (i = 0; i < result.rss.channel[0].item.length; i++) {
 
                                 let rss =  result.rss.channel[0].item[i];
                                 
@@ -131,6 +131,7 @@ module.exports = {
         let settings = data;
         let urls = [];
         let loadNews = false;
+        let limit = settings.limit;
 
         if(settings.newsYle === true){
             urls.push('https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_UUTISET');
@@ -151,23 +152,11 @@ module.exports = {
 
         }else{
 
-            let limit = () => { 
-
-                if(urls.length == 3){
-                    return Math.ceil(settings.limit/3);
-                }
-                else if( urls.length == 2){
-                    return Math.ceil(settings.limit/2);
-                }else{
-                    return settings.limit;
-                }          
-            }
-
             let combineNews = [];
 
             urls.forEach((url) =>{
 
-                combineNews.push(getNews(url, limit()));
+                combineNews.push(getNews(url));
                 
             });
 
@@ -175,8 +164,9 @@ module.exports = {
 
                     let merge = [].concat.apply([], combinedNews);
 
-                    merge.sort((b, a) => a.time - b.time);
-                    console.log(merge[0]);
+                    merge.sort((b, a) => a.date - b.date || a.time - b.time);
+                    merge.length = limit;
+
                     callback( null, merge);              
 
                 }).catch((error) => {
