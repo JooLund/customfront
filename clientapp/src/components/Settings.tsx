@@ -44,7 +44,7 @@ const Settings : React.FC = () => {
     const createOptions = () => {
         let options = [];
 
-        for(let i =  0; i < 31; i +=5){
+        for(let i =  0; i < 51; i +=5){
             //If any issues pop up with this later, selected value is currently passed inside the select html-element: https://stackoverflow.com/questions/44786669/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting
             options.push(<option key={i} value={i}>{i}</option>)
         }

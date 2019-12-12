@@ -165,7 +165,10 @@ module.exports = {
                     let merge = [].concat.apply([], combinedNews);
 
                     merge.sort((b, a) => a.date - b.date || a.time - b.time);
-                    merge.length = limit;
+
+                    if (merge.length > limit){
+                        merge.length = limit;
+                    } 
 
                     callback( null, merge);              
 

@@ -42,12 +42,12 @@ const News: React.FC = () => {
                     {appData.news.map((news: Newstype, idx: number) =>{
                         return(
                             
-                            <Col className='col-3 p-1'>
+                            <Col className='col-3 p-1' key={idx}>
                                 <Card className="card text-white bg-dark mr-1 mb-1" style={{minHeight : '17rem'}}key={idx}>
                                     <Card.Body className='p-2'>
 
                                         <Card.Text>
-                                            <p><a href={news.link} target="_blank" rel="noopener noreferrer" className='card-link'>{news.title}</a></p>
+                                            <a href={news.link} target="_blank" rel="noopener noreferrer" className='card-link'>{news.title}</a>
                                         </Card.Text>
 
                                         <Card.Subtitle className="card-subtitle mb-2 text-muted">
