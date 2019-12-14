@@ -1,22 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 //Contexts
 import appContext, { AppContext } from './context/appContext';
 import weatherContext, { WeatherContext } from './context/weatherContext';
 import settingsContext, { SettingsContext } from './context/settingsContext';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-
+//Bootstrap
 import { Container } from 'react-bootstrap';
 
+//Components
 import Main from './components/Main';
 import Nav from './components/Nav';
 import WeatherCard from './components/WeatherCard';
 import News from './components/News';
 import Settings from './components/Settings';
-
-
-import Cookies from 'js-cookie';
 
 
 const App: React.FC = () => {
@@ -34,8 +33,9 @@ const App: React.FC = () => {
   })
 
   
-//TODO: Create a separate config for the fetch URIs, current version wont run when deployed
-//TODO: Export get cookies somehow and run it with /settings post request IF changes happen https://stackoverflow.com/questions/46867494/%C3%97-react-fetch-wont-hit-index-route-in-express-router/46868034
+//TODO: Create a separate config for the fetch URIs, current version wont run when deployed https://stackoverflow.com/questions/46867494/%C3%97-react-fetch-wont-hit-index-route-in-express-router/46868034
+
+//TODO Global error handling. Currently working prototype inside getWeather. Also error handling inside settings to prevent redirection?
 
   const getForecast = async () => {
 
@@ -84,8 +84,17 @@ const App: React.FC = () => {
     try {
       let res = await fetch('http://localhost:3005/api/weather', {
         credentials: 'include'
-      });
+      })
+      .then(async (res) => {
+        if (!res.ok) {
+          let err = await res.json();
+          throw new Error(err.message);
 
+        }else{
+          return res;
+
+        }
+      });
 
       try{
 
@@ -98,6 +107,8 @@ const App: React.FC = () => {
         }));
 
       }catch(err){
+
+        console.log(err);
         setWeatherData({
           ...weatherData,
           weatherLoaded : false,
@@ -106,13 +117,15 @@ const App: React.FC = () => {
       }
 
     }catch(err){
+
+      console.log('Fetch error')
+
       setWeatherData({
         ...weatherData,
         weatherLoaded : false,
-        error : `Error: ${err}`
+        error : `${err}`
       })
     }
-
   }
 
   const getNews = async () => {
@@ -155,34 +168,27 @@ const App: React.FC = () => {
 
   }
 
-  const getCookies = async () => {
+  const updateSite = async () => {
 
     try{
+
       let cookies : any = Cookies.get('settings');
-      console.log(cookies);
       let cSettings = JSON.parse(cookies);
+
+      console.log(cookies);
 
       setSettingsData((prevData: SettingsContext) => ({
         ...prevData,
         settings : cSettings
       }));
 
-      /*
-      console.log(cSettings);
-      console.log(settingsData);
-
-      setSettingsData({
-        ...settingsData,
-        settings : cSettings
-      })
-
-      */
-
     }catch(error){
+
       setSettingsData({
         ...settingsData
       });
       console.log(error);
+
     }
   
     // Doesnt work atm
@@ -202,11 +208,13 @@ const App: React.FC = () => {
   }
 
 
+
   useEffect(() => {
 
-    getCookies();
+    updateSite();
+    console.log('Loop-check just in case');
 
-  }, [])
+  }, []);
 
   
   return (
@@ -228,7 +236,7 @@ const App: React.FC = () => {
         </Route>
 
         <Route path = '/settings'>
-            <Settings></Settings>
+            <Settings updateSite = {updateSite}></Settings>
         </Route>
         
       </Container>

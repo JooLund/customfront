@@ -10,6 +10,16 @@ const Weather : React.FC = () => {
 
     return (
         <React.Fragment>
+        {(weatherData.error)
+        ?
+            <div>
+
+                <h4>Error</h4>
+                <p>{weatherData.error}</p>
+
+            </div>
+        :
+        <span>
         {(weatherData.weatherLoaded === false)
         ? 
             <div className="row w-100 mt-3">
@@ -17,7 +27,8 @@ const Weather : React.FC = () => {
                     <span className="sr-only">Loading weather</span> 
                 </Spinner>
             </div>                                       
-        :
+        :            
+
             <Card className='card text-white bg-dark mb-2 p-1 border-0'>
                 <Card.Title className='text-center'>
                     <h2>Weather in {weatherData.weather[0].location}</h2>
@@ -38,9 +49,10 @@ const Weather : React.FC = () => {
                     </ListGroup>
                 </Card.Body>
             </Card>
+        }
+        </span>
 
         }
-
         </React.Fragment>
     )
 }

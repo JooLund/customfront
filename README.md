@@ -17,3 +17,4 @@
 3. Move news from appContext to it's own separate thing. 
 4. Add search functionality
 5. Adjust styles and clean up code
+6. Better error handling, most of the errors are just going to console

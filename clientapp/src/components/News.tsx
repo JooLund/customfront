@@ -5,7 +5,7 @@ import no_image from '../static/no_image.png';
 
 import { Newstype } from '../types/News';
 
-import { Spinner, Alert, Card, CardColumns, Row, Col } from 'react-bootstrap';
+import { Spinner, Alert, Card, Col, CardDeck } from 'react-bootstrap';
 
 
 const News: React.FC = () => {
@@ -38,11 +38,11 @@ const News: React.FC = () => {
                     </Alert>
                 </div>
             :
-                <Row className='mb-3'>
+                <CardDeck className='mb-3'>
                     {appData.news.map((news: Newstype, idx: number) =>{
                         return(
                             
-                            <Col className='col-3 p-1' key={idx}>
+                            <Col className='col-lg-3 p-1' key={idx}>
                                 <Card className="card text-white bg-dark mr-1 mb-1" style={{minHeight : '17rem'}}key={idx}>
                                     <Card.Body className='p-2'>
 
@@ -62,7 +62,7 @@ const News: React.FC = () => {
                         )
 
                     })}
-                </Row>
+                </CardDeck>
 
 
 

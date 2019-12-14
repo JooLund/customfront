@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { Row, Card, Button, Col, CardDeck, ListGroup, ListGroupItem, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 import settingsContext from '../context/settingsContext';
-
-import './toggle.css';
 import { SettingsType } from '../types/Settings';
 
+import './toggle.css';
 
-const Settings : React.FC = () => {
+
+
+interface Props{
+    updateSite : () => void
+}
+
+const Settings : React.FC<Props> = (props:Props) => {
+
+    const history = useHistory();
     
     //Highly experimental
     const settingsData = React.useContext(settingsContext);
@@ -17,6 +24,9 @@ const Settings : React.FC = () => {
         ...settingsData.settings
     })
 
+
+
+    //Currently runs the updateSite-function if the server responds with ok
     const postSettings = () : void => {
 
         try {
@@ -28,8 +38,9 @@ const Settings : React.FC = () => {
             })
             .then((res) => {
                 if( res.status === 200){
-                    settingsData.settings = settings;
-                    window.location.href = '/';
+                    props.updateSite();
+                    history.push('/');
+
                 }else{
                     console.log(res.status);
                 }
@@ -40,6 +51,7 @@ const Settings : React.FC = () => {
         }
         
     }
+
 
     const createOptions = () => {
         let options = [];
@@ -52,7 +64,6 @@ const Settings : React.FC = () => {
     }
 
     //TODO: All input fields and such need proper values and names for the POST-request
-    //Also need a proper context for the settings, server-side with cookies?
     return (
         <React.Fragment>
             
