@@ -82,7 +82,7 @@ const Settings : React.FC<Props> = (props:Props) => {
                 (e:any) => {
                     e.preventDefault();
                     postSettings();
-                    console.log(settings);
+                    //console.log(settings);
                 } 
             }>
 

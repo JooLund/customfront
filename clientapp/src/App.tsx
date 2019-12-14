@@ -37,46 +37,44 @@ const App: React.FC = () => {
 
 //TODO Global error handling. Currently working prototype inside getWeather. Also error handling inside settings to prevent redirection?
 
+  const checkResponse = async (res : Response) => {
+
+    if(!res.ok){
+
+      let err = await res.text();
+      throw new Error(err);
+
+    }else{
+      let response = await res.json(); 
+      return response;
+    }
+
+  }
+
+
   const getForecast = async () => {
 
     try {
-      let res = await fetch('http://localhost:3005/api/forecast', {
-        credentials: 'include'
-      });
 
-      try{
+      let res = await fetch('http://localhost:3005/api/forecast', {credentials: 'include'})
+      .then(checkResponse);
 
-        let forecast = await res.json();
+      let forecast = res;
 
-        setWeatherData((prevData: WeatherContext) => ({
-          ...prevData,
-          forecast : forecast,
-          forecastLoaded : true
-        }));
-
-        /*
-        setWeatherData({
-          ...weatherData,
-          forecast : forecast,
-          forecastLoaded : true
-        })*/
-        
-      }catch(err){
-        setWeatherData({
-          ...weatherData,
-          forecastLoaded : false,
-          error : `API-error: ${err}`
-        })
-      }
+      setWeatherData((prevData: WeatherContext) => ({
+        ...prevData,
+        forecast : forecast,
+        forecastLoaded : true,
+        error : ''
+      }));
 
     }catch(err){
       setWeatherData({
         ...weatherData,
         forecastLoaded : false,
-        error : `Error: ${err}`
-      })
+        error : `${err}`
+      });
     }
-
   }
 
   const getWeather = async () => {
@@ -85,85 +83,51 @@ const App: React.FC = () => {
       let res = await fetch('http://localhost:3005/api/weather', {
         credentials: 'include'
       })
-      .then(async (res) => {
-        if (!res.ok) {
-          let err = await res.json();
-          throw new Error(err.message);
+      .then(checkResponse);
 
-        }else{
-          return res;
+      let weather = res;
 
-        }
-      });
-
-      try{
-
-        let weather = await res.json();
-
-        setWeatherData((prevData: WeatherContext) => ({
-          ...prevData,
-          weather : weather,
-          weatherLoaded : true
-        }));
-
-      }catch(err){
-
-        console.log(err);
-        setWeatherData({
-          ...weatherData,
-          weatherLoaded : false,
-          error : `API-error: ${err}`
-        })
-      }
+      setWeatherData((prevData: WeatherContext) => ({
+        ...prevData,
+        weather : weather,
+        weatherLoaded : true,
+        error : ''
+      }));
 
     }catch(err){
-
       console.log('Fetch error')
-
       setWeatherData({
         ...weatherData,
         weatherLoaded : false,
         error : `${err}`
-      })
+      });
     }
+
   }
 
   const getNews = async () => {
 
     try {
       
-      let res = await fetch('http://localhost:3005/api/rss', {
-        credentials: 'include'
+      let res = await fetch('http://localhost:3005/api/rss', { credentials: 'include' })
+      .then(checkResponse);
+
+      let news = res;
+
+      setAppData({
+        ...appData,
+        news : news,
+        filesReady : true,
+        error : ''
       });
 
-
-      try {
-
-        let news = await res.json();
-
-        setAppData({
-          ...appData,
-          news : news,
-          filesReady : true
-        })
-
-      } catch (error) {
-        setAppData({
-          ...appData,
-          filesReady : false,
-          error : `API-error: ${error}`
-        })
-        console.log(error);
-      }
-
-
-    } catch (error) {
+    }catch(err){
+      console.log(`Error with the news-fetch, ${err}`);
       setAppData({
         ...appData,
         filesReady : false,
-        error : `Error: ${error}`
-      })
-      console.log(error);
+        error : `Error: ${err}`
+      });
     }
 
   }
@@ -182,31 +146,25 @@ const App: React.FC = () => {
         settings : cSettings
       }));
 
-    }catch(error){
+    }catch(err){
 
       setSettingsData({
         ...settingsData
       });
-      console.log(error);
+      console.log(err);
 
     }
   
-    // Doesnt work atm
+    /* Doesnt work atm
     if(settingsData.settings.forecast === true){
-      getForecast()
-    }
+      getForecast();
+    }*/
 
-    if(settingsData.settings.weather === true){
-      getWeather()
-    }
-
-    
-    if(settingsData.settings.newsYle === true){
-      getNews()
-    }
+    getNews();
+    getWeather();
+    getForecast();
 
   }
-
 
 
   useEffect(() => {

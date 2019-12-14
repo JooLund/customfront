@@ -79,7 +79,7 @@ router.get('/weather', (req, res) => {
             res.status(200).send(weatherObj);
 
         }catch(err){
-            res.status(500).send(JSON.stringify(err));
+            res.status(500).send(err);
         }
 
     }
