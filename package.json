@@ -12,11 +12,11 @@
     "xml2js": "^0.4.22"
   },
   "scripts": {
-    "client-install": "yarn install --prefix client",
+    "client-install": "yarn install --prefix clientapp",
     "start": "node main.js",
     "server": "nodemon main.js",
-    "client": "npm start --prefix client",
+    "client": "npm start --prefix clientapp",
     "dev" : "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix clientapp && npm run build --prefix clientapp"
   }
 }
