@@ -17,144 +17,122 @@ import WeatherCard from './components/WeatherCard';
 import News from './components/News';
 import Settings from './components/Settings';
 
-
 const App: React.FC = () => {
-
   const [settingsData, setSettingsData] = useState<SettingsContext>({
     ...useContext(settingsContext)
-  })
+  });
 
   const [weatherData, setWeatherData] = useState<WeatherContext>({
     ...useContext(weatherContext)
-  })
+  });
 
   const [appData, setAppData] = useState<AppContext>({
     ...useContext(appContext)
-  })
+  });
 
-  
-//TODO: Create a separate config for the fetch URIs, current version wont run when deployed https://stackoverflow.com/questions/46867494/%C3%97-react-fetch-wont-hit-index-route-in-express-router/46868034
+  //TODO: Create a separate config for the fetch URIs, current version wont run when deployed https://stackoverflow.com/questions/46867494/%C3%97-react-fetch-wont-hit-index-route-in-express-router/46868034
 
-//TODO Global error handling. Currently working prototype inside getWeather. Also error handling inside settings to prevent redirection?
-
-  const checkResponse = async (res : Response) => {
-
-    if(!res.ok){
-
-      let err = await res.text();
+  const checkResponse = async (res: Response) => {
+    if (!res.ok) {
+      let err = await res.json();
+      //console.log(err.message);
       throw new Error(err);
-
-    }else{
-      let response = await res.json(); 
+    } else {
+      let response = await res.json();
       return response;
     }
-
-  }
-
+  };
 
   const getForecast = async () => {
-
     try {
-
-      let res = await fetch('http://localhost:3005/api/forecast', {credentials: 'include'})
-      .then(checkResponse);
+      let res = await fetch('http://localhost:3005/api/forecast', {
+        credentials: 'include'
+      }).then(checkResponse);
 
       let forecast = res;
 
       setWeatherData((prevData: WeatherContext) => ({
         ...prevData,
-        forecast : forecast,
-        forecastLoaded : true,
-        error : ''
+        forecast: forecast,
+        forecastLoaded: true,
+        error: ''
       }));
-
-    }catch(err){
+    } catch (err) {
       setWeatherData({
         ...weatherData,
-        forecastLoaded : false,
-        error : `${err}`
+        forecastLoaded: false,
+        error: err.message
       });
     }
-  }
+  };
 
   const getWeather = async () => {
-
     try {
       let res = await fetch('http://localhost:3005/api/weather', {
         credentials: 'include'
-      })
-      .then(checkResponse);
+      }).then(checkResponse);
 
       let weather = res;
 
       setWeatherData((prevData: WeatherContext) => ({
         ...prevData,
-        weather : weather,
-        weatherLoaded : true,
-        error : ''
+        weather: weather,
+        weatherLoaded: true,
+        error: ''
       }));
+    } catch (err) {
+      console.log(JSON.stringify(err.message));
 
-    }catch(err){
-      console.log('Fetch error')
       setWeatherData({
         ...weatherData,
-        weatherLoaded : false,
-        error : `${err}`
+        weatherLoaded: false,
+        error: err.message
       });
     }
-
-  }
+  };
 
   const getNews = async () => {
-
     try {
-      
-      let res = await fetch('http://localhost:3005/api/rss', { credentials: 'include' })
-      .then(checkResponse);
+      let res = await fetch('http://localhost:3005/api/rss', {
+        credentials: 'include'
+      }).then(checkResponse);
 
       let news = res;
 
       setAppData({
         ...appData,
-        news : news,
-        filesReady : true,
-        error : ''
+        news: news,
+        filesReady: true,
+        error: ''
       });
-
-    }catch(err){
+    } catch (err) {
       console.log(`Error with the news-fetch, ${err}`);
       setAppData({
         ...appData,
-        filesReady : false,
-        error : `Error: ${err}`
+        filesReady: false,
+        error: `Error: ${err}`
       });
     }
-
-  }
+  };
 
   const updateSite = async () => {
-
-    try{
-
-      let cookies : any = Cookies.get('settings');
+    try {
+      let cookies: any = Cookies.get('settings');
       let cSettings = JSON.parse(cookies);
 
       console.log(cookies);
 
       setSettingsData((prevData: SettingsContext) => ({
         ...prevData,
-        settings : cSettings
+        settings: cSettings
       }));
-
-    }catch(err){
-
+    } catch (err) {
       setSettingsData({
         ...settingsData
       });
       console.log(err);
-
     }
-  
+
     /* Doesnt work atm
     if(settingsData.settings.forecast === true){
       getForecast();
@@ -163,47 +141,36 @@ const App: React.FC = () => {
     getNews();
     getWeather();
     getForecast();
-
-  }
-
+  };
 
   useEffect(() => {
-
     updateSite();
     console.log('Loop-check just in case');
-
   }, []);
 
-  
   return (
     <appContext.Provider value={appData}>
-    <settingsContext.Provider value={settingsData}>
+      <settingsContext.Provider value={settingsData}>
+        <Router>
+          <Container className='mt-3'>
+            <Route exact path='/'>
+              <Main>
+                <Nav></Nav>
+                <weatherContext.Provider value={weatherData}>
+                  <WeatherCard></WeatherCard>
+                </weatherContext.Provider>
+                <News></News>
+              </Main>
+            </Route>
 
-    <Router>
-
-      <Container className="mt-3">
-
-        <Route exact path ="/">
-          <Main>
-            <Nav></Nav>
-            <weatherContext.Provider value={weatherData}>
-              <WeatherCard></WeatherCard>
-            </weatherContext.Provider>
-            <News></News>
-          </Main>
-        </Route>
-
-        <Route path = '/settings'>
-            <Settings updateSite = {updateSite}></Settings>
-        </Route>
-        
-      </Container>
-
-    </Router>
-
-    </settingsContext.Provider>
+            <Route path='/settings'>
+              <Settings updateSite={updateSite}></Settings>
+            </Route>
+          </Container>
+        </Router>
+      </settingsContext.Provider>
     </appContext.Provider>
   );
-}
+};
 
 export default App;

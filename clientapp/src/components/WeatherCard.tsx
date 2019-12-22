@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Alert } from 'react-bootstrap';
 import Weather from './Weather';
 import Forecast from './Forecast';
 
@@ -22,7 +22,12 @@ const WeatherCard : React.FC = () => {
 
             {(weatherData.error)
             ?
-              <h1>{weatherData.error}</h1>
+              <Card.Body>
+                <Alert variant='danger'>
+                  <Alert.Heading>Error!</Alert.Heading>
+                  <p style={{color:'#000'}}>Additional information: {weatherData.error}</p>
+                </Alert>
+              </Card.Body>
             :
             
               <Card.Body>
