@@ -7,12 +7,9 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/routes')
 const port = process.env.PORT || 3005;
 
-const cors = require('cors');
-
-
-
+//const cors = require('cors');
 //app.use(cors());
-app.use(cors({ origin:true, credentials:true }));
+//app.use(cors({ origin:true, credentials:true }));
 
 
 app.use(bodyParser.json());
@@ -22,7 +19,16 @@ app.use(cookieParser());
 //Routing
 app.use('/api', routes);
 
+if(process.env.NODE_ENV === 'production'){
 
+    // Set static folder
+    app.use(express.static('clientapp/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+
+}
 
 app.listen(port, () => {
 

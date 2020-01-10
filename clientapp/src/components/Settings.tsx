@@ -18,19 +18,17 @@ const Settings : React.FC<Props> = (props:Props) => {
 
     const history = useHistory();
     
-    //Highly experimental
+    //Probably the wrong way of doing things
     const settingsData = React.useContext(settingsContext);
     const [settings, setSettings] = useState<SettingsType>({
         ...settingsData.settings
     })
 
 
-
-    //Currently runs the updateSite-function if the server responds with ok
     const postSettings = () : void => {
 
         try {
-            fetch('http://localhost:3005/api/settings', {
+            fetch('api/settings', {
                 method : 'POST',
                 credentials : 'include',
                 headers: { 'Content-Type': 'application/json' },            
@@ -63,7 +61,7 @@ const Settings : React.FC<Props> = (props:Props) => {
         return options
     }
 
-    //TODO: All input fields and such need proper values and names for the POST-request
+
     return (
         <React.Fragment>
             

@@ -1,8 +1,8 @@
 #Global
 node_modules/
 
-#Node
-/keys
+#Apikeys
+keys/
 
 #React
 .pnp/

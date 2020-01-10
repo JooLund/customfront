@@ -30,7 +30,6 @@ const App: React.FC = () => {
     ...useContext(appContext)
   });
 
-  //TODO: Create a separate config for the fetch URIs, current version wont run when deployed https://stackoverflow.com/questions/46867494/%C3%97-react-fetch-wont-hit-index-route-in-express-router/46868034
 
   const checkResponse = async (res: Response) => {
     if (!res.ok) {
@@ -45,7 +44,7 @@ const App: React.FC = () => {
 
   const getForecast = async () => {
     try {
-      let res = await fetch('http://localhost:3005/api/forecast', {
+      let res = await fetch('api/forecast', {
         credentials: 'include'
       }).then(checkResponse);
 
@@ -68,7 +67,7 @@ const App: React.FC = () => {
 
   const getWeather = async () => {
     try {
-      let res = await fetch('http://localhost:3005/api/weather', {
+      let res = await fetch('api/weather', {
         credentials: 'include'
       }).then(checkResponse);
 
@@ -93,7 +92,7 @@ const App: React.FC = () => {
 
   const getNews = async () => {
     try {
-      let res = await fetch('http://localhost:3005/api/rss', {
+      let res = await fetch('api/rss', {
         credentials: 'include'
       }).then(checkResponse);
 
