@@ -46,7 +46,7 @@ module.exports = {
                     let weather = {
                         'icon' : `http://openweathermap.org/img/w/${result.weather[0].icon}.png`,
                         'desc' : result.weather[0].description,
-                        'temp' : result.main.temp,
+                        'temp' : result.main.temp.toFixed(1),
                         'pressure' : result.main.pressure,
                         'humidity' : result.main.humidity,
                         'wind' : result.wind.speed,
@@ -108,7 +108,7 @@ module.exports = {
                         let forecast = {
                             'icon' : `http://openweathermap.org/img/w/${copyResults[j].weather[0].icon}.png`,
                             'desc' : copyResults[j].weather[0].description,
-                            'temp' : copyResults[j].main.temp,
+                            'temp' : copyResults[j].main.temp.toFixed(1),
                             'pressure' : copyResults[j].main.pressure,
                             'humidity' : copyResults[j].main.humidity,
                             'wind' : copyResults[j].wind.speed,

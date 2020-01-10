@@ -73,7 +73,7 @@ const Nav : React.FC = () => {
             <Col></Col>
             <Col className='col-8 text-center'>
                 <h1>{createGreeting()}</h1>
-                <h4>{createFiller()}</h4>
+                <h5>{createFiller()}</h5>
             </Col>
             <Col>
                 <Button as={Link} to="/settings" variant="outline-info" className="mt-2">
