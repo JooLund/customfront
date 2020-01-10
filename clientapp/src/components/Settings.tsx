@@ -88,7 +88,8 @@ const Settings : React.FC<Props> = (props:Props) => {
                 <Card className='card text-white bg-dark mb-4 w-100'>
 
                     <Card.Body className='w-75 mx-auto'>
-                        <input className='form-control text-white bg-dark border-1' type='text' name='tba' defaultValue={settingsData.settings.location} onChange={ (e : any) => { setSettings({...settings, location : e.target.value}) }} placeholder='Use this input-field to choose a location for the weather service. No functionality at the moment'/>
+                        <h3 className='text-center mb-3'>Weather location</h3>
+                        <input className='form-control text-white bg-dark border-1' type='text' name='tba' defaultValue={settingsData.settings.location} onChange={ (e : any) => { setSettings({...settings, location : e.target.value}) }} placeholder='Use this input-field to choose a location for the weather service.'/>
                     </Card.Body>
 
                     <CardDeck className='w-75 mx-auto'>

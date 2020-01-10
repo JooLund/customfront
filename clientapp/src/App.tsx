@@ -114,12 +114,13 @@ const App: React.FC = () => {
     }
   };
 
+
   const updateSite = async () => {
     try {
       let cookies: any = Cookies.get('settings');
       let cSettings = JSON.parse(cookies);
 
-      console.log(cookies);
+      //console.log(cookies);
 
       setSettingsData((prevData: SettingsContext) => ({
         ...prevData,
@@ -132,11 +133,6 @@ const App: React.FC = () => {
       console.log(err);
     }
 
-    /* Doesnt work atm
-    if(settingsData.settings.forecast === true){
-      getForecast();
-    }*/
-
     getNews();
     getWeather();
     getForecast();
@@ -144,7 +140,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     updateSite();
-    console.log('Loop-check just in case');
   }, []);
 
   return (

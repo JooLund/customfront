@@ -43,7 +43,7 @@ const News: React.FC = () => {
                         return(
                             
                             <Col className='col-lg-3 p-1' key={idx}>
-                                <Card className="card text-white bg-dark mr-1 mb-1" style={{minHeight : '17rem'}}key={idx}>
+                                <Card className="card text-white bg-dark mr-1 mb-1" style={{minHeight : '15rem'}}key={idx}>
                                     <Card.Body className='p-2'>
 
                                         <Card.Text>
