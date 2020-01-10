@@ -66,10 +66,11 @@ const Settings : React.FC<Props> = (props:Props) => {
         <React.Fragment>
             
             <Row className='mt-3 mb-3'>
-                <Col className='col-10'>
+                <Col></Col>
+                <Col className='col-8 text-center'>
                     <h1>Settings</h1>
                 </Col>
-                <Col className='col-2'>
+                <Col>
                     <Button as={Link} to="/" variant="outline-info" className="mt-2">
                         Return
                     </Button>
