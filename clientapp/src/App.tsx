@@ -16,6 +16,7 @@ import Nav from './components/Nav';
 import WeatherCard from './components/WeatherCard';
 import News from './components/News';
 import Settings from './components/Settings';
+import Search from './components/Search';
 
 const App: React.FC = () => {
   const [settingsData, setSettingsData] = useState<SettingsContext>({
@@ -150,6 +151,7 @@ const App: React.FC = () => {
             <Route exact path='/'>
               <Main>
                 <Nav></Nav>
+                <Search></Search>
                 <weatherContext.Provider value={weatherData}>
                   <WeatherCard></WeatherCard>
                 </weatherContext.Provider>

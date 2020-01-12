@@ -71,7 +71,7 @@ const Settings : React.FC<Props> = (props:Props) => {
                     <h1>Settings</h1>
                 </Col>
                 <Col>
-                    <Button as={Link} to="/" variant="outline-info" className="mt-2">
+                    <Button as={Link} to="/" variant="outline-light" className="mt-2 btn-block">
                         Return
                     </Button>
                 </Col>
@@ -81,7 +81,6 @@ const Settings : React.FC<Props> = (props:Props) => {
                 (e:any) => {
                     e.preventDefault();
                     postSettings();
-                    //console.log(settings);
                 } 
             }>
 
@@ -146,7 +145,7 @@ const Settings : React.FC<Props> = (props:Props) => {
                     </Card.Body>
 
                     <Card.Body className='mx-auto'>
-                        <Button variant='outline-info' className='btn-lg' type='submit'>Save settings</Button>
+                        <Button variant='outline-light' className='btn-lg' type='submit'>Save settings</Button>
                     </Card.Body>
 
                 </Card>

@@ -53,9 +53,12 @@ const News: React.FC = () => {
                                         <Card.Subtitle className="card-subtitle mb-2 text-muted">
                                             <small>Published: {news.date} at {news.time}. Source: {news.source}</small>
                                         </Card.Subtitle>
-                                        
+                                        {(news.img === 'no_image')
+                                        ?
+                                        <></>
+                                        :
                                         <Card.Img onError={(e: any) => {showDefault(e)}} src={news.img} style={{maxHeight : '15rem'}} className='mx-auto d-block w-75'  alt='No picture'></Card.Img>
-
+                                        }
                                     </Card.Body>
                                 </Card>
                             </Col>

@@ -76,7 +76,7 @@ const Nav : React.FC = () => {
                 <h5>{createFiller()}</h5>
             </Col>
             <Col>
-                <Button as={Link} to="/settings" variant="outline-info" className="mt-2">
+                <Button as={Link} to="/settings" variant="outline-light" className="mt-2 btn-block">
                     Settings
                 </Button>
             </Col>
