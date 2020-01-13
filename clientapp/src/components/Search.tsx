@@ -10,7 +10,7 @@ const Search = () => {
             <Card className='card text-white bg-dark mb-4 w-100'>
 
                 <Card.Body className='m-1 p-1'>
-                <Form action='http://google.com/search' method='get'>
+                <Form action='https://www.google.com/search' method='get'>
                     <Row>
                         <Col className='col-9'>
                             <input className='form-control text-white bg-dark border-light' type='text' name='q' placeholder='Google search'/>

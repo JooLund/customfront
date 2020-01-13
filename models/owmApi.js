@@ -44,7 +44,7 @@ module.exports = {
                     }
 
                     let weather = {
-                        'icon' : `http://openweathermap.org/img/w/${result.weather[0].icon}.png`,
+                        'icon' : `https://www.openweathermap.org/img/w/${result.weather[0].icon}.png`,
                         'desc' : result.weather[0].description,
                         'temp' : result.main.temp.toFixed(1),
                         'pressure' : result.main.pressure,

@@ -1,5 +1,5 @@
 # Custom front page
 
-#### You will need OpenWeathermap and Google Cloud API-keys, the app will not run without them
+#### The application uses OpenWeatherMap API will not run locally without an API-key
 1. The default location for the api-keys is at /keys
 
